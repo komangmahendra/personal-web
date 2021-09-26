@@ -6,7 +6,7 @@
 </script>
 
 <main>
-    <label>{blog.title}</label>
+    <div class="blog__title">{blog.title}</div>
 
     <ul class="blog-item__categories">
         {#each blog.categories as category}
@@ -31,7 +31,7 @@
         transform: scale(1.05);
     }
 
-    label {
+    .blog__title {
         font-size: 1rem;
         line-height: 1.5rem;
     }
