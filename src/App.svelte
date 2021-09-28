@@ -70,7 +70,7 @@
 	</div>
 
 	<footer class="copyright">
-		<span>design and code by me @ 2021</span>
+		<span>komang mahendra @ 2021</span>
 	</footer>
 </main>
 
