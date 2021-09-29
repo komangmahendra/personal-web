@@ -3,18 +3,29 @@
 	
 	// component
 	import BlogItem from './component/BlogItem.svelte';
+	import Loading from './component/Loading.svelte';
 
 	// type
 	import type { Blog } from './component/type'
 
 	// state
 	export let blogs : Blog[] = []
+	export let isLoading: boolean = false;
 
 	onMount(async() => {
-		const response = await fetch("https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@mahend")
-		const data = await response.json();
-		console.log(data)
-		blogs = data.items;
+		isLoading = true
+
+		try {
+			const response = await fetch("https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@mahend")
+			const data = await response.json();
+			blogs = data.items;
+		} catch (err)
+			{
+				console.error(err)
+			} 
+		finally {
+			isLoading = false
+		}
 	})
 
 </script>
@@ -58,7 +69,11 @@
 		</div>
 		<div class="main__posts">
 			<span class="main-post__title">// POSTS</span>
-
+			{#if isLoading}
+				<div class="loading__container">
+					<Loading />
+				</div>
+			{:else}
 			<ul>
 				{#each blogs as blog}
 					<li><a target="_blank" href={blog.link}>
@@ -66,6 +81,7 @@
 					</a></li>
 				{/each}
 			</ul>
+			{/if}
 		</div>
 	</div>
 
@@ -81,6 +97,13 @@
 		background: #323437;
 		font-size: 16px;
 		font-family: 'Roboto', monospace;
+	}
+
+	.loading__container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 5rem;
 	}
 
 	ul {
